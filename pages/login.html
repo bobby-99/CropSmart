@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | CropSmart</title>
+    <link rel="stylesheet" href="/style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <!-- Same navigation as register.html -->
+            <div class="logo-container">
+                <img src="/assets/img/logo.png" alt="CropSmart Logo" class="logo-img">
+                <div class="logo-text">CropSmart</div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/index.html#prediction">Predictions</a></li>
+                <li><a href="/index.html#store">Store</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="/pages/register.html" class="btn">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="login-section">
+        <div class="form-container">
+            <h2>Login to CropSmart</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            
+            <script>
+                document.getElementById('login-form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    try {
+                        const response = await fetch('http://localhost:3000/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                email: document.getElementById('login-email').value,
+                                password: document.getElementById('login-password').value
+                            })
+                        });
+            
+                        const data = await response.json();
+                        
+                        if (response.ok) {
+                            localStorage.setItem('token', data.token);  // Save token
+                            window.location.href = 'index.html';  // Consistent redirect
+                        } else {
+                            alert(data.error || 'Login failed');
+                        }
+                    } catch (err) {
+                        alert('Network error - please try again');
+                        console.error(err);
+                    }
+                });
+            </script>
+            <p class="auth-redirect">New user? <a href="/pages/register.html">Create account</a></p>
+        </div>
+    </section>
+
+    <footer>
+        <p class="copyright">&copy; 2025 CropSmart. All rights reserved.</p>
+    </footer>
+</body>
+</html>

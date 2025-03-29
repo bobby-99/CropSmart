@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertilizer Recommendations | CropSmart</title>
+    <link rel="stylesheet" href="/style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Include all styles from crop results page */
+         /* Loading Spinner */
+         .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(100, 255, 218, 0.3);
+            border-top: 4px solid var(--accent-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Parameter Display */
+        .param-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .param-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.8rem;
+            border-radius: 8px;
+        }
+        
+        .param-item strong {
+            color: var(--accent-green);
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Results Cards */
+        .results-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .result-card {
+            background: var(--dark-green);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--accent-green);
+        }
+        
+        .crop-name {
+            font-size: 1.8rem;
+            color: var(--accent-green);
+            margin: 0.5rem 0;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar div {
+            height: 100%;
+            background: var(--accent-green);
+        }
+        
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        .param-item { background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; }
+        .fertilizer-card { border-color: #64ffda; background: var(--dark-green); }
+        .recommendation-badge { background: #64ffda30; color: #64ffda; padding: 0.5rem 1rem; border-radius: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo-container">
+                <img src="assets/img/logo.png" alt="CropSmart Logo" class="logo-img">
+                <div class="logo-text">CropSmart</div>
+            </div>
+            <a href="assests/fertilizer-suggestions.html" class="btn-outline">New Analysis</a>
+        </nav>
+    </header>
+
+    <section class="results-section">
+        <div class="analysis-container">
+            <h2>Fertilizer Recommendations</h2>
+            <div id="loading-state">
+                <div class="spinner"></div>
+                <p>Analyzing your soil conditions...</p>
+            </div>
+            
+            <div id="results-container" style="display: none;">
+                <div class="param-display">
+                    <h3>Input Parameters</h3>
+                    <div class="param-grid" id="param-display"></div>
+                </div>
+                
+                <div class="results-grid" id="results-grid"></div>
+                
+                <div class="additional-info">
+                    <h3>Recommended Practices</h3>
+                    <div id="practices-container"></div>
+                </div>
+                
+                <a href="pages/fertilizer-suggestions.html" class="btn">New Analysis</a>
+            </div>
+            
+            <div id="error-state" class="error-state" style="display: none;"></div>
+        </div>
+    </section>
+
+    <script src="assets/js/fertilizer-data.js"></script>
+
+    <script>
+        // Dataset loading (update with your dataset.js reference)
+        let fertilizerData = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Load fertilizer data
+                fertilizerData = await loadFertilizerData();
+                runAnalysis();
+            } catch (error) {
+                showErrorState(error.message);
+            }
+        });
+
+        async function loadFertilizerData() {
+  return fertilizerData; // Now using the globally available variable
+}
+
+        function runAnalysis() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const input = {
+                    district: params.get('district'),
+                    soilColor: params.get('soil-color'),
+                    crop: params.get('crop'),
+                    nitrogen: parseFloat(params.get('nitrogen')),
+                    phosphorus: parseFloat(params.get('phosphorus')),
+                    potassium: parseFloat(params.get('potassium')),
+                    ph: parseFloat(params.get('ph')),
+                    rainfall: parseFloat(params.get('rainfall')),
+                    temperature: parseFloat(params.get('temperature'))
+                };
+
+                displayParameters(input);
+                const recommendations = getRecommendations(input);
+                displayResults(recommendations);
+                
+                document.getElementById('loading-state').style.display = 'none';
+                document.getElementById('results-container').style.display = 'block';
+                
+            } catch (error) {
+                showErrorState(error.message);
+            }
+        }
+
+        function getRecommendations(input) {
+            // Simple matching algorithm (enhance with your logic)
+            return fertilizerData.filter(entry =>
+                entry.District_Name === input.district &&
+                entry.Soil_color === input.soilColor &&
+                entry.Crop.toLowerCase() === input.crop.toLowerCase() &&
+                Math.abs(entry.Nitrogen - input.nitrogen) <= 5 &&
+                Math.abs(entry.Phosphorus - input.phosphorus) <= 3 &&
+                Math.abs(entry.Potassium - input.potassium) <= 5
+            ).slice(0, 3);
+        }
+
+        function displayParameters(params) {
+            const container = document.getElementById('param-display');
+            container.innerHTML = Object.entries(params).map(([key, value]) => `
+                <div class="param-item">
+                    <strong>${key.replace(/([A-Z])/g, ' $1')}:</strong> ${value}
+                </div>
+            `).join('');
+        }
+
+        function displayResults(results) {
+            const container = document.getElementById('results-grid');
+            
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="error-message">
+                        <p>No specific recommendations found. General advice:</p>
+                        <div class="recommendation-badge">Use balanced NPK fertilizer</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = results.map(rec => `
+                <div class="result-card fertilizer-card">
+                    <h4>Recommended Fertilizer</h4>
+                    <div class="recommendation-badge">${rec.Fertilizer}</div>
+                    <div class="practice-info">
+                        <p><strong>Application Method:</strong> ${rec.Practices}</p>
+                        <p><strong>Compatibility:</strong> ${rec.Crop} in ${rec.District_Name}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showErrorState(message) {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('error-state').innerHTML = `
+                <h3>Error</h3>
+                <p>${message}</p>
+                <a href="fertilizer-suggestions.html" class="btn">Try Again</a>
+            `;
+            document.getElementById('error-state').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

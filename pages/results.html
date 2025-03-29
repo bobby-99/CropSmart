@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Recommendations | CropSmart</title>
+    <link rel="stylesheet" href="/style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Loading Spinner */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(100, 255, 218, 0.3);
+            border-top: 4px solid var(--accent-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Parameter Display */
+        .param-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .param-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.8rem;
+            border-radius: 8px;
+        }
+        
+        .param-item strong {
+            color: var(--accent-green);
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Results Cards */
+        .results-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .result-card {
+            background: var(--dark-green);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--accent-green);
+        }
+        
+        .crop-name {
+            font-size: 1.8rem;
+            color: var(--accent-green);
+            margin: 0.5rem 0;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar div {
+            height: 100%;
+            background: var(--accent-green);
+        }
+        
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+    </style>
+    <script src="/assets/js/crop-data.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo-container">
+                <img src="/assets/img/logo.png" alt="CropSmart Logo" class="logo-img">
+                <div class="logo-text">CropSmart</div>
+            </div>
+            <a href="/pages/crop-analysis.html" class="btn">New Analysis</a>
+        </nav>
+    </header>
+
+    <section class="results-section">
+        <div class="analysis-container">
+            <h2>Crop Recommendation Results</h2>
+            
+            <!-- Loading State -->
+            <div id="loading-state">
+                <div class="spinner"></div>
+                <p>Processing your soil analysis...</p>
+            </div>
+            
+            <!-- Results Container (hidden initially) -->
+            <div id="results-container" style="display: none;">
+                <div class="param-display">
+                    <h3>Your Input Parameters</h3>
+                    <div class="param-grid" id="param-display"></div>
+                </div>
+                
+                <div class="results-title">
+                    <h3>Recommended Crops</h3>
+                </div>
+                
+                <div class="results-grid" id="results-grid"></div>
+                
+                <a href="/pages/crop-analysis.html" class="btn" style="margin-top: 2rem;">Perform New Analysis</a>
+            </div>
+            
+            <!-- Error State (hidden initially) -->
+            <div id="error-state" class="error-state" style="display: none;"></div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start the analysis process when page loads
+            runAnalysis();
+            
+            // Debug: Log all URL parameters
+            console.log("URL Parameters:", Object.fromEntries(new URLSearchParams(window.location.search)));
+        });
+
+        async function runAnalysis() {
+            try {
+                showLoadingState();
+                
+                // 1. Load crop data
+                const cropData = await loadCropData();
+                console.log("Crop data loaded successfully. Records:", cropData.length);
+                
+                // 2. Get and validate input parameters
+                const inputParams = getInputParameters();
+                validateInputParameters(inputParams);
+                
+                // 3. Display parameters
+                renderParameters(inputParams);
+                
+                // 4. Calculate and display recommendations
+                const recommendations = calculateRecommendations(inputParams, cropData);
+                renderRecommendations(recommendations);
+                
+                // 5. Show results
+                showResultsState();
+                
+            } catch (error) {
+                console.error("Analysis error:", error);
+                showErrorState(error.message);
+            }
+        }
+
+        async function loadCropData() {
+  return cropData; // Now using the globally available variable
+}
+
+        function getInputParameters() {
+            const params = new URLSearchParams(window.location.search);
+            
+            return {
+                N: parseNumberParam(params, 'N'),
+                P: parseNumberParam(params, 'P'),
+                K: parseNumberParam(params, 'K'),
+                temperature: parseNumberParam(params, 'temperature'),
+                humidity: parseNumberParam(params, 'humidity'),
+                ph: parseNumberParam(params, 'ph'),
+                rainfall: parseNumberParam(params, 'rainfall')
+            };
+        }
+
+        function parseNumberParam(params, key) {
+            const value = params.get(key);
+            if (value === null || value === '') {
+                throw new Error(`Missing parameter: ${key}`);
+            }
+            
+            const num = parseFloat(value);
+            if (isNaN(num)) {
+                throw new Error(`Invalid number for ${key}: ${value}`);
+            }
+            
+            return num;
+        }
+
+        function validateInputParameters(params) {
+            const ranges = {
+                N: { min: 0, max: 140 },
+                P: { min: 5, max: 145 },
+                K: { min: 5, max: 205 },
+                temperature: { min: 8, max: 44 },
+                humidity: { min: 14, max: 99 },
+                ph: { min: 3.5, max: 9.9 },
+                rainfall: { min: 20, max: 3000 }
+            };
+            
+            for (const [key, value] of Object.entries(params)) {
+                const range = ranges[key];
+                if (value < range.min || value > range.max) {
+                    throw new Error(`${key} value ${value} is outside valid range (${range.min}-${range.max})`);
+                }
+            }
+        }
+
+        function renderParameters(params) {
+            const container = document.getElementById('param-display');
+            container.innerHTML = '';
+            
+            for (const [key, value] of Object.entries(params)) {
+                container.innerHTML += `
+                    <div class="param-item">
+                        <strong>${key}:</strong> ${value.toFixed(key === 'ph' ? 1 : 0)}
+                    </div>
+                `;
+            }
+        }
+
+        function calculateRecommendations(input, cropData) {
+            // Calculate weighted score for each crop
+            const weightedData = cropData.map(crop => {
+                const weights = {
+                    N: 1.2,
+                    P: 1.1,
+                    K: 1.0,
+                    temperature: 0.8,
+                    humidity: 0.7,
+                    ph: 1.5,
+                    rainfall: 0.9
+                };
+                
+                let score = 0;
+                for (const param in weights) {
+                    score += Math.abs(input[param] - crop[param]) * weights[param];
+                }
+                
+                return {
+                    ...crop,
+                    score: score
+                };
+            });
+            
+            // Sort by score and return top 3
+            return weightedData.sort((a, b) => a.score - b.score).slice(0, 3);
+        }
+
+        function renderRecommendations(recommendations) {
+            const container = document.getElementById('results-grid');
+            container.innerHTML = '';
+            
+            if (recommendations.length === 0) {
+                throw new Error("No suitable crops found for these parameters");
+            }
+            
+            recommendations.forEach((crop, index) => {
+                const confidence = Math.max(10, 100 - (crop.score / 5));
+                
+                container.innerHTML += `
+                    <div class="result-card">
+                        <h4>${index === 0 ? 'Best Match' : 'Alternative ' + index}</h4>
+                        <p class="crop-name">${crop.label.toUpperCase()}</p>
+                        <small>Confidence: ${Math.round(confidence)}%</small>
+                        <div class="progress-bar">
+                            <div style="width: ${Math.round(confidence)}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function showLoadingState() {
+            document.getElementById('loading-state').style.display = 'block';
+            document.getElementById('results-container').style.display = 'none';
+            document.getElementById('error-state').style.display = 'none';
+        }
+
+        function showResultsState() {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('results-container').style.display = 'block';
+            document.getElementById('error-state').style.display = 'none';
+        }
+
+        function showErrorState(message) {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('results-container').style.display = 'none';
+            
+            const errorContainer = document.getElementById('error-state');
+            errorContainer.innerHTML = `
+                <h3>Error</h3>
+                <p>${message}</p>
+                <a href="crop-analysis.html" class="btn">Try Again</a>
+            `;
+            errorContainer.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,987 @@
+:root {
+    --navy-blue: #0A192F;
+    --accent-green: #64FFDA;
+    --light-green: #8892B0;
+    --white: #CCD6F6;
+    --dark-green: #112240;
+    --font-title: 'Montserrat', sans-serif;
+    --font-body: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+body {
+    background-color: var(--navy-blue);
+    color: var(--white);
+    font-family: var(--font-body);
+    line-height: 1.6;
+}
+
+/* Navigation */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    background-color: rgba(16, 34, 66, 0.95);
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    font-family: var(--font-title);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-title);
+    position: relative;
+    font-size: 0.95rem;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent-green);
+    transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background-color: var(--accent-green);
+    color: var(--navy-blue);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--accent-green);
+    color: var(--accent-green);
+}
+
+.btn:hover {
+    background-color: #52e0c4;
+    transform: translateY(-2px);
+}
+
+.btn-outline:hover {
+    background-color: var(--accent-green);
+    color: var(--navy-blue);
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    position: relative;
+    background: url('assets/farm.jpg') center/cover no-repeat;
+    animation: fadeIn 1.5s ease-in;
+    display: flex;
+    align-items: center;
+    padding-top: 80px; /* Account for fixed navbar */
+}
+/* Hero Image Fade Effect */
+.hero-image-fade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Between overlay (z-index:1) and content (z-index:2) */
+    overflow: hidden;
+  }
+  
+  .fade-out-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    mask-image: linear-gradient(to bottom, 
+      rgba(0,0,0,1) 0%, 
+      rgba(0,0,0,0.8) 50%, 
+      rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, 
+      rgba(0,0,0,1) 0%, 
+      rgba(0,0,0,0.8) 50%, 
+      rgba(0,0,0,0) 100%);
+    animation: fadeInScale 3s ease-out forwards;
+  }
+  
+  @keyframes fadeInScale {
+    0% {
+      opacity: 0;
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 25, 47, 0.7);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 10%;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.hero h1 {
+    font-family: var(--font-title);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -1px;
+    color: var(--white);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.hero h1 {
+    color: #FFFFFF;
+    text-shadow: 0 0 10px rgba(100, 255, 218, 0.7);
+  }
+.hero p {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+    color: var(--light-green);
+    max-width: 600px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 1.2rem 2.5rem;
+    background-color: var(--accent-green);
+    color: var(--navy-blue);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transform: scale(1);
+    transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(100, 255, 218, 0.4);
+}
+/* Black Dropdown Styling */
+.black-dropdown {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 1px solid var(--accent-green) !important;
+}
+
+.black-dropdown option {
+    background: #000;
+    color: #fff;
+}
+
+/* Login Page Specific */
+.login-section {
+    padding: 4rem 1rem;
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    background: var(--dark-green);
+    padding: 2rem;
+    border-radius: 15px;
+}
+
+.auth-redirect {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--light-green);
+}
+
+.auth-redirect a {
+    color: var(--accent-green);
+    text-decoration: none;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero {
+        text-align: center;
+        padding: 0 1.5rem;
+        padding-top: 100px;
+    }
+    
+    .hero-content {
+        padding: 0;
+    }
+    
+    .hero p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* About Section */
+.about {
+    padding: 5rem 10%;
+    background-color: var(--dark-green);
+}
+
+.section-title {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--white);
+}
+
+.about-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-text h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-green);
+}
+
+.about-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--light-green);
+    margin-bottom: 2rem;
+}
+
+/* Prediction Section */
+.prediction {
+    padding: 5rem 10%;
+    background-color: var(--navy-blue);
+}
+
+.prediction-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: var(--dark-green);
+    padding: 2rem;
+    border-radius: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(16, 34, 66, 0.5);
+}
+
+.fertilizer-card {
+    border: 2px solid var(--accent-green);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--white);
+}
+
+.feature-card p {
+    color: var(--light-green);
+    line-height: 1.7;
+}
+
+/* Store Section */
+.store {
+    padding: 5rem 10%;
+    background-color: var(--dark-green);
+}
+
+.store-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: var(--navy-blue);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+}
+
+.product-img {
+    height: 250px;
+    overflow: hidden;
+}
+
+.product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.product-card:hover .product-img img {
+    transform: scale(1.1);
+}
+
+.product-content {
+    padding: 1.5rem;
+}
+
+.product-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+}
+
+.product-price {
+    color: var(--accent-green);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+}
+
+.product-content p {
+    color: var(--light-green);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.buy-btn {
+    background: var(--accent-green);
+    color: var(--navy-blue);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 1rem;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.buy-btn:hover {
+    background: #52e0c4;
+    transform: translateY(-2px);
+}
+
+/* Blog Section */
+.blog {
+    padding: 5rem 10%;
+    background-color: var(--navy-blue);
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.blog-card {
+    background: var(--dark-green);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.blog-card:hover {
+    transform: translateY(-10px);
+}
+
+.blog-content {
+    padding: 1.5rem;
+}
+
+.blog-author {
+    color: var(--accent-green);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.blog-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--white);
+}
+
+.blog-excerpt {
+    color: var(--light-green);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 5rem 10%;
+    background-color: var(--dark-green);
+}
+
+.contact {
+    display: flex;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-info {
+    flex: 1;
+}
+
+.contact-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-green);
+}
+
+.contact-info p {
+    margin-bottom: 1rem;
+    color: var(--light-green);
+}
+
+.contact-form {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--white);
+    font-size: 0.9rem;
+}
+
+.form-group input, 
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--light-green);
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-green);
+}
+
+.form-group textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.checkbox-group input {
+    margin-right: 0.5rem;
+}
+
+.checkbox-group label {
+    font-size: 0.9rem;
+    color: var(--light-green);
+    margin-bottom: 0;
+}
+
+/* Footer */
+footer {
+    background-color: var(--navy-blue);
+    color: white;
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+    color: var(--accent-green);
+}
+/* Background Image Fade Effect */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.hero {
+    animation: fadeIn 1.5s ease-in;
+}
+
+/* NPK Input Styling */
+.analysis-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--accent-green);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--light-green);
+    border-radius: 4px;
+    color: white;
+}
+/* ======================
+   Crop Analysis New Fields 
+   ====================== */
+   #rainfall, 
+   #humidity, 
+   #temperature {
+       width: 100%;
+       padding: 0.8rem;
+       background: rgba(255, 255, 255, 0.1);
+       border: 1px solid var(--light-green);
+       border-radius: 4px;
+       color: var(--white);
+       font-family: var(--font-body);
+       transition: border-color 0.3s;
+   }
+   
+   /* Focus states */
+   #rainfall:focus,
+   #humidity:focus,
+   #temperature:focus {
+       outline: none;
+       border-color: var(--accent-green);
+       box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
+   }
+   
+   /* Responsive adjustments */
+   @media (max-width: 768px) {
+       #rainfall, 
+       #humidity, 
+       #temperature {
+           padding: 0.7rem;
+       }
+   }
+
+.copyright {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+/* ======================
+   NEW PAGES STYLES
+   ====================== */
+
+/* Registration Page Styles */
+.register-section {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: var(--dark-green);
+}
+
+.register-container {
+    background: var(--navy-blue);
+    padding: 3rem;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.register-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--accent-green);
+    font-family: var(--font-title);
+}
+
+#registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--light-green);
+}
+
+.login-link a {
+    color: var(--accent-green);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.login-link a:hover {
+    color: #52e0c4;
+}
+
+/* Crop Analysis Page Styles */
+.analysis-section {
+    min-height: calc(100vh - 80px);
+    padding: 3rem 1.5rem;
+    background-color: var(--dark-green);
+}
+
+.analysis-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.analysis-container h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--accent-green);
+    font-family: var(--font-title);
+}
+
+.analysis-form {
+    background: var(--navy-blue);
+    padding: 2.5rem;
+    border-radius: 15px;
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--light-green);
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    font-family: var(--font-body);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--accent-green);
+}
+
+.results-section {
+    background: var(--navy-blue);
+    padding: 2rem;
+    border-radius: 15px;
+}
+
+.results-section h3 {
+    color: var(--accent-green);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: var(--font-title);
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Form button alignment for both pages */
+.register-section .btn,
+.analysis-section .btn {
+    grid-column: 1 / -1;
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+/* Feature Card Links */
+.feature-card {
+    background: var(--dark-green);
+    padding: 2rem;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s;
+    overflow: hidden; /* Added for the hover effect */
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(100, 255, 218, 0.3);
+}
+
+.feature-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(100, 255, 218, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.feature-card:hover::after {
+    opacity: 1;
+}
+/* Card Link Styles */
+.card-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    height: 100%;
+    padding: 2rem;
+}
+
+.feature-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Navbar Scroll Behavior */
+.navbar {
+    position: fixed;
+    top: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar.scroll-up {
+    transform: translateY(0);
+}
+
+.navbar.scroll-down {
+    transform: translateY(-100%);
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.result-card {
+    background: var(--dark-green);
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.result-card:hover {
+    transform: translateY(-5px);
+}
+
+.result-card h4 {
+    color: var(--accent-green);
+    margin-bottom: 0.5rem;
+}
+
+.result-card p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.result-card small {
+    color: var(--light-green);
+    font-size: 0.8rem;
+}
+
+/* Add to style.css */
+.result-card {
+    background: var(--dark-green);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid var(--accent-green);
+}
+
+.progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress-bar div {
+    height: 100%;
+    background: var(--accent-green);
+    transition: width 0.5s ease;
+}
+
+.error-message {
+    color: #ff6b6b;
+    text-align: center;
+    padding: 2rem;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .hero {
+        padding: 0 1.5rem;
+        padding-top: 120px;
+        text-align: center;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero p {
+        font-size: 1.1rem;
+    }
+    
+    .cta-btn {
+        padding: 1rem 2rem;
+    }
+    
+    .contact {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .prediction-grid, .store-grid, .blog-grid {
+        grid-template-columns: 1fr;
+    }
+    .register-container {
+        padding: 2rem 1.5rem;
+    }
+    
+    .analysis-form {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+    }
+    .analysis-container h2,
+    .register-container h2 {
+        font-size: 2rem;
+    }
+
+}
+
+/* Add to style.css */
+@media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }

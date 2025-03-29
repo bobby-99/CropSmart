@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Analysis | CropSmart</title>
+    <link rel="stylesheet" href="/style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo-container">
+                <img src="/assets/img/logo.png" alt="CropSmart Logo" class="logo-img">
+                <div class="logo-text">CropSmart</div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/index.html#prediction">Predictions</a></li>
+                <li><a href="index.html#store">Store</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="/pages/register.html" class="btn">Register</a>
+                <a href="/pages/login.html" class="btn">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="analysis-section">
+        <div class="analysis-container">
+            <h2>Crop Recommendation Tool</h2>
+            <form class="analysis-form" action="/pages/results.html" method="GET">
+                <!-- NPK Inputs -->
+                <div class="form-group">
+                    <label for="nitrogen">Nitrogen (N) in mg/kg</label>
+                    <input type="number" id="nitrogen" name="N" min="0" max="500" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phosphorus">Phosphorus (P) in mg/kg</label>
+                    <input type="number" id="phosphorus" name="P" min="0" max="500" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="potassium">Potassium (K) in mg/kg</label>
+                    <input type="number" id="potassium" name="K" min="0" max="500" required>
+                </div>
+
+                <!-- Environmental Factors -->
+                <div class="form-group">
+                    <label for="temperature">Temperature (°C)</label>
+                    <input type="number" id="temperature" name="temperature" step="0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="humidity">Humidity (%)</label>
+                    <input type="number" id="humidity" name="humidity" min="0" max="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ph">Soil pH</label>
+                    <input type="number" id="ph" name="ph" min="0" max="14" step="0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="rainfall">Rainfall (mm)</label>
+                    <input type="number" id="rainfall" name="rainfall" min="0" required>
+                </div>
+
+                <button type="submit" class="btn">Analyze Soil</button>
+            </form>
+        </div>
+    </section>
+    <script>
+        document.querySelector('.analysis-form').addEventListener('submit', function(e) {
+            const inputs = document.querySelectorAll('input[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value) {
+                    input.style.borderColor = '#ff6b6b';
+                    isValid = false;
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill all required fields');
+            }
+        });
+    </script>
+
+    <footer>
+        <p class="copyright">&copy; 2025 CropSmart. All rights reserved.</p>
+    </footer>
+
+    <!-- Simple form validation script -->
+    <script>
+        document.querySelector('.analysis-form').addEventListener('submit', function(e) {
+            const requiredFields = document.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value) {
+                    field.style.borderColor = '#ff6b6b';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '';
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill all required fields');
+            }
+        });
+    </script>
+</body>
+</html>

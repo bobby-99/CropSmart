@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | CropSmart</title>
+    <link rel="stylesheet" href="/style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo-container">
+                <img src="/assets/img/logo.png" alt="CropSmart Logo" class="logo-img">
+                <div class="logo-text">CropSmart</div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="index.html#prediction">Predictions</a></li>
+                <li><a href="index.html#store">Store</a></li>
+                <li><a href="index.html#blog">Blog</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="register-section">
+        <div class="register-container">
+            <h2>Create Your Account</h2>
+            <form id="registration-form">
+                <div class="form-group">
+                    <label for="reg-name">Full Name</label>
+                    <input type="text" id="reg-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">Email Address</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-phone">Phone Number</label>
+                    <input type="tel" id="reg-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Password</label>
+                    <input type="password" id="reg-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-confirm">Confirm Password</label>
+                    <input type="password" id="reg-confirm" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+                <script>
+                    document.querySelector("form").addEventListener("submit", async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.target);
+                      
+                      const response = await fetch('/register', {  // or '/register'
+                        method: 'POST',
+                        body: JSON.stringify(Object.fromEntries(formData)),
+                        headers: { 'Content-Type': 'application/json' }
+                      });
+                      
+                      const data = await response.json();
+                      localStorage.setItem('token', data.token); // Save token
+                      window.location.href = "index.html"; // Redirect
+                    });
+                  </script>
+            </form>
+            <!-- Update login link -->
+            <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+    </section>
+
+    <footer>
+        <p class="copyright">&copy; 2025 CropSmart. All rights reserved.</p>
+    </footer>
+    <script>
+        document.getElementById('registration-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const formData = {
+            name: document.getElementById('reg-name').value,
+            email: document.getElementById('reg-email').value,
+            phone: document.getElementById('reg-phone').value,
+            password: document.getElementById('reg-password').value
+          };
+      
+          try {
+            const response = await fetch('http://localhost:3000/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(formData)
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+              alert(`Registration successful! Welcome ${data.name}`);
+              window.location.href = 'crop-analysis.html';
+            } else {
+              alert(`Error: ${data.error}`);
+            }
+          } catch (err) {
+            console.error('Registration error:', err);
+            alert('Failed to connect to server');
+          }
+        });
+      </script>
+</body>
+</html>

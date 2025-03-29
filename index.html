@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropSmart - Smart Farming Solutions</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo-container">
+                <img src="assets/img/logo.png" alt="CropSmart Logo" class="logo-img">
+                <div class="logo-text">CropSmart</div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about">Our Story</a></li>
+                <li><a href="#prediction">Predictions</a></li>
+                <li><a href="#store">Store</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button id="logoutBtn" class="btn" style="display: none;">Logout</button>
+                <a href="pages/login.html" class="btn" id="loginLink">Login</a>
+                <a href="pages/register.html" class="btn" id="registerLink">Register</a>
+              </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-image-fade">
+          <img src="assets/img/hero-image1.jpg" alt="Modern farming landscape" class="fade-out-image">
+        </div>
+        <div class="hero-content">
+          <h1>Smart Farming Solutions</h1>
+          <p>Transforming Agriculture Through AI-Driven Insights</p>
+          <a href="pages/crop-analysis.html" class="cta-btn">Get Started →</a>
+        </div>
+      </section>
+
+    <section id="about" class="about">
+        <h2 class="section-title">Our Story</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Who We Are</h2>
+                <p>CropSmart is dedicated to revolutionizing agriculture by providing farmers with accurate crop predictions based on soil analysis, weather trends, and location-specific data. Our mission is to empower farmers to make informed decisions leading to improved yields and sustainable farming practices.</p>
+                <a href="#prediction" class="btn">Explore Predictions</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="prediction" class="prediction">
+        <h2 class="section-title">Smart Predictions</h2>
+        <div class="prediction-grid">
+            <div class="feature-card" onclick="window.location.href='/pages/crop-analysis.html'">
+                <div class="feature-icon">🌱</div>
+                <h3>Crop Analysis</h3>
+                <p>Advanced prediction algorithms for optimal crop selection.</p>
+            </div>
+            <!-- Update the Fertilizer Suggestions card link -->
+            <div class="feature-card fertilizer-card" onclick="window.location.href='/pages/fertilizer-suggestions.html'">
+                <div class="feature-icon">🧪</div>
+                <h3>Fertilizer Suggestions</h3>
+                <p>Custom fertilizer recommendations based on soil analysis.</p>
+            </div>
+            <div class="feature-card" id="crop-analysis">
+                <div class="feature-icon">🌍</div>
+                <h3>Soil Health</h3>
+                <p>Continuous soil monitoring for maximum fertility.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="store" class="store">
+        <h2 class="section-title">Our Store</h2>
+        <div class="store-grid">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assets/img/soil-test-kit.png" alt="Soil Analysis Kit">
+                </div>
+                <div class="product-content">
+                    <h3>Soil Analysis Kit</h3>
+                    <div class="product-price">₹5000</div>
+                    <p>Professional soil testing kit with complete nutrient analysis</p>
+                    <button class="buy-btn">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assets/img/moisture-meter.png" alt="Moisture Meter">
+                </div>
+                <div class="product-content">
+                    <h3>Moisture Meter</h3>
+                    <div class="product-price">₹2500</div>
+                    <p>Digital soil moisture measuring device with wireless connectivity</p>
+                    <button class="buy-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assets/img/guide-book.jpg" alt="Farming Guide Book">
+                </div>
+                <div class="product-content">
+                    <h3>Farming Guide Book</h3>
+                    <div class="product-price">₹700</div>
+                    <p>Comprehensive guide to modern farming techniques</p>
+                    <button class="buy-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog" class="blog">
+        <h2 class="section-title">Blog</h2>
+        <div class="blog-grid">
+            <div class="blog-card">
+                <div class="blog-content">
+                    <p class="blog-author">modumphy6</p>
+                    <h3>Book Agricultural Insights</h3>
+                    <p class="blog-excerpt">Agricultural productivity plays a crucial role in sustaining food production to meet the demands of a growing population...</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-content">
+                    <p class="blog-author">modumphy6</p>
+                    <h3>Enhance Farming Success</h3>
+                    <p class="blog-excerpt">As agriculture continues to evolve with technological advancements, farmers are finding new ways to increase efficiency...</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-content">
+                    <p class="blog-author">modumphy6</p>
+                    <h3>Maximize Crop Yields</h3>
+                    <p class="blog-excerpt">In the world of agriculture, maximizing crop yields is the ultimate goal for farmers looking to optimize their operations...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">Follow Us</h2>
+        <div class="contact">
+            <div class="contact-info">
+                <h3>CropSmart</h3>
+                <p>Stay Connected with Us</p>
+                
+                <h3 style="margin-top: 2rem;">Contact Us</h3>
+                <p>123-456-7890</p>
+                <p>info@mysite.com</p>
+                <p>500 Terry Francine Street,<br>
+                6th Floor, San Francisco, CA 94158</p>
+                
+                <p style="margin-top: 2rem;"><a href="#" style="color: var(--accent-green);">Privacy Policy</a></p>
+            </div>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label for="email">Enter Your Email Address *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <button type="submit" class="btn">Subscribe</button>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="newsletter">
+                        <label for="newsletter">Yes, Subscribe me to newsletter</label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <ul class="footer-links">
+            <li><a href="#about">Our Story</a></li>
+            <li><a href="#prediction">Prediction</a></li>
+            <li><a href="#store">Store</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <p class="copyright">&copy; 2025 CropSmart. All rights reserved.</p>
+    </footer>
+    <script>
+        let lastScroll = 0;
+        const navbar = document.querySelector('.navbar');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll <= 0) {
+                navbar.classList.remove('scroll-up');
+                return;
+            }
+            
+            if (currentScroll > lastScroll && !navbar.classList.contains('scroll-down')) {
+                navbar.classList.remove('scroll-up');
+                navbar.classList.add('scroll-down');
+            } else if (currentScroll < lastScroll && navbar.classList.contains('scroll-down')) {
+                navbar.classList.remove('scroll-down');
+                navbar.classList.add('scroll-up');
+            }
+            
+            lastScroll = currentScroll;
+        });
+    </script>
+    <script>
+        // Auto-show/hide buttons based on login status
+        if (localStorage.getItem('token')) {
+          document.getElementById('logoutBtn').style.display = 'block';
+          document.getElementById('loginLink').style.display = 'none';
+          document.getElementById('registerLink').style.display = 'none';
+        }
+      
+        // Logout action
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+          localStorage.removeItem('token');
+          window.location.reload(); // Refresh to show login buttons
+        });
+      </script>
+  
+</body>
+</html>
