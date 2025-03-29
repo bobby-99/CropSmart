@@ -38,4 +38,4 @@ Feel free to open issues or submit pull requests to improve CropSmart!
 This project is licensed under the MIT License.
 
 ---
-Made with ❤️ by [Bobby](https://github.com/bobby-99)
+Made with ❤️ by [Bobby](https://github.com/bobby-99) & Team Shinobis
